@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Nicco JAMB Practice App</string>
+    <string name="title_activity_main">Nicco JAMB Practice App</string>
+    <string name="package_name">com.nicco.jambpractice</string>
+    <string name="custom_url_scheme">com.nicco.jambpractice</string>
+</resources>
