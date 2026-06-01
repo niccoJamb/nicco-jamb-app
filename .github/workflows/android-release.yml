@@ -28,37 +28,37 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd nicco-jamb-app-clean
+          cd nicco-jamb-app
           npm install
 
       - name: Build web assets
         run: |
-          cd nicco-jamb-app-clean
+          cd nicco-jamb-app
           npm run build
 
       - name: Sync Capacitor
         run: |
-          cd nicco-jamb-app-clean
+          cd nicco-jamb-app
           npx cap sync android
 
       - name: Decode keystore
         run: |
-          echo "$KEYSTORE_BASE64" | base64 --decode > nicco-jamb-app-clean/nicco-release.keystore
+          echo "$KEYSTORE_BASE64" | base64 --decode > nicco-jamb-app/nicco-release.keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: Make gradlew executable
-        run: chmod +x nicco-jamb-app-clean/android/gradlew
+        run: chmod +x nicco-jamb-app/android/gradlew
 
       - name: Build Release AAB
-        working-directory: nicco-jamb-app-clean/android
+        working-directory: nicco-jamb-app/android
         run: ./gradlew bundleRelease
 
       - name: Sign AAB
-        working-directory: nicco-jamb-app-clean/android
+        working-directory: nicco-jamb-app/android
         run: |
           jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
-            -keystore ../../nicco-jamb-app-clean/nicco-release.keystore \
+            -keystore ../../nicco-jamb-app/nicco-release.keystore \
             app/build/outputs/bundle/release/app-release.aab \
             $KEY_ALIAS \
             -storepass $KEYSTORE_PASSWORD \
@@ -72,5 +72,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: signed-aab
-          path: nicco-jamb-app-clean/android/app/build/outputs/bundle/release/app-release.aab
-
+          path: nicco-jamb-app/android/app/build/outputs/bundle/release/app-release.aab
