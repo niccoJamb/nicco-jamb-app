@@ -1,0 +1,18 @@
+workflows:
+  ios-build:
+    name: iOS Build
+    environment:
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install
+          npx cap sync ios
+      - name: Build iOS
+        script: |
+          xcode-project build-ipa \
+            --workspace "App/App.xcworkspace" \
+            --scheme "App"
+    artifacts:
+      - build/ios/ipa/*.ipa
